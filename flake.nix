@@ -14,7 +14,7 @@
       packages = nixpkgs.lib.genAttrs systems (system: {
         default = nixvim.legacyPackages.${system}.makeNixvimWithModule {
           pkgs = import nixpkgs { inherit system; };
-          module = { colorschemes.gruvbox.enable = true; };
+          module = import ./config;
           extraSpecialArgs = {};
         };
       });
