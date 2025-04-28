@@ -9,14 +9,23 @@
     { nixpkgs, nixvim, ... }@inputs:
     let
       systems = [ "aarch64-darwin" "x86_64-linux" ];
-    in
-    {
-      packages = nixpkgs.lib.genAttrs systems (system: {
-        default = nixvim.legacyPackages.${system}.makeNixvimWithModule {
-          pkgs = import nixpkgs { inherit system; };
+
+      mkPkgs = system: import nixpkgs { inherit system; };
+
+      mkNixvim = system: nixvim.legacyPackages.${system}.makeNixvimWithModule {
+          pkgs = mkPkgs system;
           module = import ./config;
           extraSpecialArgs = {};
-        };
+      };
+    in
+    {
+      packages = nixpkgs.lib.genAttrs systems (system: rec {
+        pkgs = mkPkgs system;
+        nvim = mkNixvim system;
+        default = nvim;
+        nvide = pkgs.writeShellScriptBin "nvide" ''
+          exec ${pkgs.neovide}/bin/neovide --neovim-bin ${nvim}/bin/nvim
+        '';
       });
     };
 }
