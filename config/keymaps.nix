@@ -30,14 +30,14 @@
 		}
 		# keep cursor in the center
 		{
-			key = "<C-d>";
+			key = "<c-d>";
 			mode = "n";
-			action = "<C-d>zz";
+			action = "<c-d>zz";
 		}
 		{
-			key = "<C-u>";
+			key = "<c-u>";
 			mode = "n";
-			action = "<C-u>zz";
+			action = "<c-u>zz";
 		}
 		{
 			key = "n";
@@ -55,16 +55,16 @@
 			mode = "n";
 			action = "mzJ'z";
 		}
-		# pageUp/pageDown should function as C-u and C-d
+		# <pageup>/<pagedown> should function as c-u and c-d
 		{
-			key = "<PageDown>";
+			key = "<pagedown>";
 			mode = "n";
-			action = "<C-d>zz";
+			action = "<c-d>zz";
 		}
 		{
-			key = "<PageUp>";
+			key = "<pageup>";
 			mode = "n";
-			action = "<C-u>zz";
+			action = "<c-u>zz";
 		}
 	];
 }

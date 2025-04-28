@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-	imports = [ ./remaps.nix ];
+	imports = [ ./keymaps.nix ./telescope.nix ];
 
 	plugins.lualine.enable = true;
 
