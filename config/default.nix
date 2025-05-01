@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-	imports = [ ./keymaps.nix ./telescope.nix ];
+	imports = [ ./keymaps.nix ./treesitter.nix ./telescope.nix ];
 
 	plugins.lualine.enable = true;
 
@@ -70,50 +70,15 @@
 
 		servers = {
 			nixd.enable = true;
-		};
-	};
-
-	plugins.treesitter = {
-		enable = true;
-		settings = {
-			highlight.enable = true;
-			indent.enable = true;
+			gopls.enable = true;
+			rust_analyzer.enable = true;
 		};
 	};
 
 	plugins.nvim-autopairs.enable = true;
 	plugins.rainbow-delimiters.enable = true;
 
-	plugins.treesitter-context.enable = true;
-
-	plugins.treesitter-textobjects = {
-		enable = true;
-		select = {
-			enable = true;
-			lookahead = true;
-			includeSurroundingWhitespace = true;
-			keymaps = {
-				"aa" = "@parameter.outer";
-				"ia" = "@parameter.inner";
-				"af" = "@function.outer";
-				"if" = "@function.inner";
-				"ac" = "@class.outer";
-				"ic" = "@class.inner";
-			};
-		};
-		move = {
-			enable = true;
-			setJumps = true;
-			gotoNextStart = {
-				"]f" = "@function.outer";
-				"]]" = "@class.outer";
-			};
-			gotoPreviousStart = {
-				"[f" = "@function.outer";
-				"[[" = "@class.outer";
-			};
-		};
-	};
+	plugins.comment.enable = true;
 
 	# todo
 	performance.byteCompileLua = {
