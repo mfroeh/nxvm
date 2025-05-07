@@ -1,90 +1,152 @@
 { pkgs, ... }:
 {
-	imports = [ ./keymaps.nix ./treesitter.nix ./telescope.nix ];
+  imports = [
+    ./keymaps.nix
+    ./treesitter.nix
+    ./telescope.nix
+  ];
 
-	plugins.lualine.enable = true;
+  plugins.lualine.enable = true;
 
-	extraPlugins = [
-		# dont move on yank
-		# (pkgs.vimUtils.buildVimPlugin {
-		# 	name = "YankAssassin.vim";
-		# 	src = pkgs.fetchFromGitHub {
-		# 		owner = "svban";
-		# 		repo = "YankAssassin.vim";
-		# 		rev = "main";
-		# 		hash = "sha256-xuQ60dTv+GjU904SB+Nt3tclbNsOycZurdtYZWciD3A=";
-		# 	};
-		# })
-	];
+  extraPlugins = [
+    # dont move on yank
+    # (pkgs.vimUtils.buildVimPlugin {
+    # 	name = "YankAssassin.vim";
+    # 	src = pkgs.fetchFromGitHub {
+    # 		owner = "svban";
+    # 		repo = "YankAssassin.vim";
+    # 		rev = "main";
+    # 		hash = "sha256-xuQ60dTv+GjU904SB+Nt3tclbNsOycZurdtYZWciD3A=";
+    # 	};
+    # })
+  ];
 
-	opts = {
-		number = true;
-		relativenumber = true;
+  plugins.neorg.enable = true;
+  plugins.neorg.settings.load = {
+    "core.concealer" = {
+      config = {
+        icon_preset = "varied";
+      };
+    };
+    "core.defaults" = { };
+    "core.dirman" = {
+      config = {
+        workspaces = {
+          mine = "~/notes";
+        };
+        default_workspace = "mine";
+      };
+    };
+    "core.journal" = {
+      config = {
+        strategy = "flat";
+        workspace = "mine";
+      };
+    };
+  };
 
-		# indent/tab
-		tabstop = 2;
-		softtabstop = 2;
-		shiftwidth = 2;
-		shiftround = true;
+  plugins.lazygit.enable = true;
+  plugins.gitsigns.enable = true;
+  plugins.gitsigns.settings.current_line_blame = true;
 
-		# search
-		ignorecase = true;
-		smartcase = true;
+  keymaps = [
+    {
+      mode = "n";
+      key = "gm";
+      action = "<cmd>LazyGit<cr>";
+    }
+    {
+      mode = "n";
+      key = "[h";
+      action = "<cmd>Gitsigns nav_hunk prev<cr>";
+    }
+    {
+      mode = "n";
+      key = "]h";
+      action = "<cmd>Gitsigns nav_hunk next<cr>";
+    }
+  ];
 
-		showmode = false;
-		laststatus = 3;
+  plugins.nvim-surround.enable = true;
 
-		splitright = true;
-		splitbelow = true;
+  plugins.blink-cmp.enable = true;
 
-		wrap = true;
-		linebreak = true;
-		showbreak = "↳ ";
+  plugins.oil.enable = true;
 
-		list = true;
-		listchars = "tab:▸·,extends:»,precedes:«,nbsp:·,eol:↵,trail:␣";
+  opts = {
+    number = true;
+    relativenumber = true;
 
-		cursorline = true;
-		scrolloff = 8;
+    # indent/tab
+    tabstop = 2;
+    softtabstop = 2;
+    shiftwidth = 2;
+    shiftround = true;
 
-		gdefault = true;
+    # search
+    ignorecase = true;
+    smartcase = true;
 
-		autoread = true;
+    showmode = false;
+    laststatus = 3;
 
-		signcolumn = "yes";
+    splitright = true;
+    splitbelow = true;
 
-		undofile = true;
-		swapfile = false;
+    wrap = true;
+    linebreak = true;
+    showbreak = "↳ ";
 
-		virtualedit = "block";
-	};
+    list = true;
+    listchars = "tab:▸·,extends:»,precedes:«,nbsp:·,eol:↵,trail:␣";
 
-	colorschemes = {
-		nightfox.enable = true;
-		# “carbonfox”, “dawnfox”, “dayfox”, “duskfox”, “nightfox”, “nordfox”, “terafox”
-		nightfox.flavor = "terafox";
-	};
+    cursorline = true;
+    scrolloff = 8;
 
-	plugins.lsp = {
-		enable = true;
+    gdefault = true;
 
-		servers = {
-			nixd.enable = true;
-			gopls.enable = true;
-			rust_analyzer.enable = true;
-		};
-	};
+    autoread = true;
 
-	plugins.nvim-autopairs.enable = true;
-	plugins.rainbow-delimiters.enable = true;
+    signcolumn = "yes";
 
-	plugins.comment.enable = true;
+    undofile = true;
+    swapfile = false;
 
-	# todo
-	performance.byteCompileLua = {
-		enable = false;
-		initLua = true;
-		nvimRuntime = true;
-		plugins = true;
-	};
+    virtualedit = "block";
+  };
+
+  colorschemes = {
+    nightfox.enable = true;
+    # “carbonfox”, “dawnfox”, “dayfox”, “duskfox”, “nightfox”, “nordfox”, “terafox”
+    nightfox.flavor = "terafox";
+  };
+
+  plugins.lsp = {
+    enable = true;
+
+    servers = {
+      nixd.enable = true;
+      gopls.enable = true;
+      protols.enable = true;
+
+      rust_analyzer.enable = true;
+      # install this per project instead
+      rust_analyzer.installRustc = false;
+      rust_analyzer.installCargo = false;
+    };
+  };
+  plugins.lsp-format.enable = true;
+
+  plugins.nvim-autopairs.enable = true;
+  plugins.rainbow-delimiters.enable = true;
+
+  plugins.comment.enable = true;
+
+  # todo
+  performance.byteCompileLua = {
+    enable = false;
+    initLua = true;
+    nvimRuntime = true;
+    plugins = true;
+  };
 }
