@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [
     ./keymaps.nix
@@ -28,7 +28,6 @@
         icon_preset = "varied";
       };
     };
-    "core.defaults" = { };
     "core.dirman" = {
       config = {
         workspaces = {
@@ -121,21 +120,43 @@
     nightfox.flavor = "terafox";
   };
 
-  plugins.lsp = {
-    enable = true;
+  plugins = {
+    lsp = {
+      enable = true;
 
-    servers = {
-      nixd.enable = true;
-      gopls.enable = true;
-      protols.enable = true;
+      servers = {
+        nixd.enable = true;
+        gopls.enable = true;
+        protols.enable = true;
 
-      rust_analyzer.enable = true;
-      # install this per project instead
-      rust_analyzer.installRustc = false;
-      rust_analyzer.installCargo = false;
+        rust_analyzer.enable = true;
+        # install this per project instead
+        rust_analyzer.installRustc = false;
+        rust_analyzer.installCargo = false;
+      };
+    };
+    # plugins.lsp.inlayHints = true;
+    lsp.luaConfig.post = ''
+      		vim.diagnostic.config({
+      			virtual_text = true,
+      			signs = true,
+      			underline = true,
+      			update_in_insert = false,
+      			severity_sort = true,
+      		})
+    '';
+    lsp.keymaps.lspBuf = {
+      K = "hover";
+      gD = "references";
+      gd = "definition";
+      gi = "implementation";
+      gt = "type_definition";
     };
   };
+  plugins.lspsaga.enable = true;
+
   plugins.lsp-format.enable = true;
+  plugins.lsp-signature.enable = true;
 
   plugins.nvim-autopairs.enable = true;
   plugins.rainbow-delimiters.enable = true;
